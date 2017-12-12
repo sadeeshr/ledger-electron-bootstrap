@@ -1,11 +1,8 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-<<<<<<< HEAD
-=======
 const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin')
 
->>>>>>> 248a8748d677376e2027b06121e28687a33c38de
 const { spawn } = require('child_process');
 
 // Config directories
@@ -49,8 +46,6 @@ module.exports = {
   target: 'electron-renderer',
   plugins: [
     new HtmlWebpackPlugin(),
-<<<<<<< HEAD
-=======
     new HtmlWebpackExternalsPlugin({
       externals: [
         {
@@ -60,7 +55,6 @@ module.exports = {
         },
       ],
     }),
->>>>>>> 248a8748d677376e2027b06121e28687a33c38de
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development')
     })

@@ -1,14 +1,4 @@
 import '../assets/css/App.css';
-<<<<<<< HEAD
-import React, { Component } from 'react';
-
-class App extends React.Component {
-  render() {
-    return (
-      <div>
-        <h1>Hello, Electron!</h1>
-        <p>I hope you enjoy using basic-electron-react-boilerplate to start your dev off right!</p>
-=======
 // import '~/bootstrap/dist/css/boostrap.css'
 // import '../../node_modules/bootstrap/dist/css/bootstrap.css'
 // import '../assets/css/bootstrap.min.css';
@@ -69,7 +59,6 @@ class App extends React.Component {
         </ul>
       </Panel>
         
->>>>>>> 248a8748d677376e2027b06121e28687a33c38de
       </div>
     );
   }

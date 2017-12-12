@@ -1,19 +1,6 @@
 'use strict';
 
 // Import parts of electron to use
-<<<<<<< HEAD
-const {app, BrowserWindow} = require('electron');
-const path = require('path')
-const url = require('url')
-
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is garbage collected.
-let mainWindow;
-
-// Keep a reference for dev mode
-let dev = false;
-if ( process.defaultApp || /[\\/]electron-prebuilt[\\/]/.test(process.execPath) || /[\\/]electron[\\/]/.test(process.execPath) ) {
-=======
 const { app, BrowserWindow, ipcMain } = require('electron');
 
 const path = require('path')
@@ -32,13 +19,10 @@ var eth
 // Keep a reference for dev mode
 let dev = false;
 if (process.defaultApp || /[\\/]electron-prebuilt[\\/]/.test(process.execPath) || /[\\/]electron[\\/]/.test(process.execPath)) {
->>>>>>> 248a8748d677376e2027b06121e28687a33c38de
   dev = true;
 }
 
 function createWindow() {
-<<<<<<< HEAD
-=======
 
   // setTimeout(() => {
   //   console.log("L: ",ledger);
@@ -70,7 +54,6 @@ function createWindow() {
   //   })
   // }, 5000);
 
->>>>>>> 248a8748d677376e2027b06121e28687a33c38de
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 1024, height: 768, show: false
@@ -78,11 +61,7 @@ function createWindow() {
 
   // and load the index.html of the app.
   let indexPath;
-<<<<<<< HEAD
-  if ( dev && process.argv.indexOf('--noDevServer') === -1 ) {
-=======
   if (dev && process.argv.indexOf('--noDevServer') === -1) {
->>>>>>> 248a8748d677376e2027b06121e28687a33c38de
     indexPath = url.format({
       protocol: 'http:',
       host: 'localhost:8080',
@@ -96,9 +75,6 @@ function createWindow() {
       slashes: true
     });
   }
-<<<<<<< HEAD
-  mainWindow.loadURL( indexPath );
-=======
   mainWindow.loadURL(indexPath);
 
   var ledgerWorker = fork(`${__dirname}/ledger-worker.js`)
@@ -137,27 +113,18 @@ function createWindow() {
       }
     }
   });
->>>>>>> 248a8748d677376e2027b06121e28687a33c38de
 
   // Don't show until we are ready and loaded
   mainWindow.once('ready-to-show', () => {
     mainWindow.show();
     // Open the DevTools automatically if developing
-<<<<<<< HEAD
-    if ( dev ) {
-=======
     if (dev) {
->>>>>>> 248a8748d677376e2027b06121e28687a33c38de
       mainWindow.webContents.openDevTools();
     }
   });
 
   // Emitted when the window is closed.
-<<<<<<< HEAD
-  mainWindow.on('closed', function() {
-=======
   mainWindow.on('closed', function () {
->>>>>>> 248a8748d677376e2027b06121e28687a33c38de
     // Dereference the window object, usually you would store windows
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.

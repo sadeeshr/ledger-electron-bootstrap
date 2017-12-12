@@ -1,11 +1,9 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-<<<<<<< HEAD
-=======
+
 const HtmlWebpackExternalsPlugin = require('html-webpack-externals-plugin')
 
->>>>>>> 248a8748d677376e2027b06121e28687a33c38de
 const BabiliPlugin = require('babili-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
@@ -53,8 +51,6 @@ module.exports = {
   target: 'electron-renderer',
   plugins: [
     new HtmlWebpackPlugin(),
-<<<<<<< HEAD
-=======
     new HtmlWebpackExternalsPlugin({
       externals: [
         {
@@ -64,7 +60,6 @@ module.exports = {
         },
       ],
     }),
->>>>>>> 248a8748d677376e2027b06121e28687a33c38de
     new ExtractTextPlugin('bundle.css'),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production')
