@@ -13,6 +13,7 @@ const fork = require('child_process').fork
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+var deviceState = false;
 var ledgercomm
 var eth
 
@@ -24,39 +25,9 @@ if (process.defaultApp || /[\\/]electron-prebuilt[\\/]/.test(process.execPath) |
 
 function createWindow() {
 
-  // setTimeout(() => {
-  //   console.log("L: ",ledger);
-  //   ledger.comm_node.list_async().then((deviceList) => {
-  //     console.log("D: ",deviceList.length);
-  //     if(deviceList.length > 0)
-  //           console.log("Connected: ", deviceList);
-  //     ledger.comm_node.create_async().then((comm) => {
-  //       console.log("C: ",comm)
-  //       ledgercomm = comm
-  //       console.log("LedgerComm: ", ledgercomm);
-  //       eth = new ledger.eth(ledgercomm);
-  //       console.log("ETH: ", eth);
-  //       let ethBip32 = "44'/60'/0'/";
-
-  //       for (let i = 0; i < 5; i++) {
-  //         eth.getAddress_async(ethBip32 + 0)
-  //           .then(
-  //           function (result) {
-  //             console.log("RESULT : ", result);
-  //             // event.sender.send('address', result);
-  //           })
-  //           .catch(
-  //           function (error) {
-  //             console.log("ERROR is: ", error);
-  //           });
-  //       }
-  //     }).fail((error) => console.log(error))
-  //   })
-  // }, 5000);
-
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 1024, height: 768, show: false
+    width: 700, height: 600, show: false
   });
 
   // and load the index.html of the app.
@@ -77,32 +48,42 @@ function createWindow() {
   }
   mainWindow.loadURL(indexPath);
 
+  /**
+   * Fork the ledger module creation as separate process and return the status here.
+   */
   var ledgerWorker = fork(`${__dirname}/ledger-worker.js`)
-
+  
+  // ledger module device process handler
   ledgerWorker.on('message', (message) => {
     if (message.connected && !ledgercomm) {
+      deviceState = true
       console.log("creating comm object")
       ledger.comm_node.create_async().then((comm) => {
         ledgercomm = comm
         console.log("comm: ", comm);
       }).fail((error) => console.log(error))
     } else if (!message.connected && ledgercomm) {
+      deviceState = false
       ledgercomm.close_async()
       ledgercomm = null
     }
   })
 
-
-
+/**
+ * Ledger events handling
+ */
   ipcMain.on('ledger', (event, arg) => {
-    if (arg.action == 'getAddress') {
+    if (arg.action == 'getStatus') {
+      event.sender.send('status', deviceState);
+    } else if (arg.action == 'getAddress') {
       let ethBip32 = "44'/60'/0'/";
       eth = new ledger.eth(ledgercomm);
-            console.log("ETH: ", eth);
+      console.log("ETH: ", eth);
       for (let i = 0; i < 5; i++) {
         eth.getAddress_async(ethBip32 + i)
           .then(
           function (result) {
+            result["bip32"] = ethBip32 + i;
             console.log("RESULT : ", result);
             event.sender.send('address', result);
           })
@@ -111,6 +92,15 @@ function createWindow() {
             console.log("ERROR is: ", error);
           });
       }
+    } else if (arg.action == 'getSignedTransaction') {
+      console.log("i m here going for signing transaction");      
+      var rawHex = "ea808504e3b29200825208944ec785f4a73dd7889681389a6f65769913a30876865af3107a400080018080";
+      eth.signTransaction_async(JSON.parse(arg.bip32), rawHex)
+      .then(function (result) {
+          console.log("result here: ", result);
+          event.sender.send('validtransaction', result);
+      })
+      .fail(function (ex) { console.log(ex); });
     }
   });
 
@@ -119,7 +109,7 @@ function createWindow() {
     mainWindow.show();
     // Open the DevTools automatically if developing
     if (dev) {
-      mainWindow.webContents.openDevTools();
+      // mainWindow.webContents.openDevTools();
     }
   });
 

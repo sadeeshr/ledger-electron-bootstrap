@@ -45,7 +45,7 @@ module.exports = {
   },
   target: 'electron-renderer',
   plugins: [
-    new HtmlWebpackPlugin(),
+    new HtmlWebpackPlugin({title: "Electro Ledger Ethereum Wallet"}),
     new HtmlWebpackExternalsPlugin({
       externals: [
         {
