@@ -1,13 +1,9 @@
 {
-  "name": "basic-electron-react-boilerplate",
-  "version": "0.7.0",
-  "description": "Minimal and modern react+electron+webpack boilerplate",
-  "author": "Phillip Barbiero",
-  "homepage": "https://github.com/pbarbiero/basic-electron-react-boilerplate",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/pbarbiero/basic-electron-react-boilerplate.git"
-  },
+  "name": "ledger-electron-ethwallet",
+  "version": "0.0.1",
+  "description": "",
+  "author": "Sadeesh Radhakrishnan",
+  "homepage": "",
   "license": "MIT",
   "main": "main.js",
   "scripts": {
